@@ -1,0 +1,70 @@
+const mongoose = require('mongoose');
+const { DIFFICULTY } = require('../config/constants');
+
+const dictationSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: [true, 'Title is required'],
+      trim: true,
+      maxlength: [120, 'Title cannot exceed 120 characters'],
+    },
+    description: {
+      type: String,
+      trim: true,
+      maxlength: [500, 'Description cannot exceed 500 characters'],
+      default: '',
+    },
+    transcript: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    audioUrl: {
+      type: String,
+      default: '',
+    },
+    audioPublicId: {
+      type: String,
+      default: '',
+    },
+    youtubeLink: {
+      type: String,
+      default: '',
+    },
+    pdfUrl: {
+      type: String,
+      default: '',
+    },
+    pdfPublicId: {
+      type: String,
+      default: '',
+    },
+    difficulty: {
+      type: String,
+      enum: Object.values(DIFFICULTY),
+      default: DIFFICULTY.MEDIUM,
+    },
+    uploadedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    practiceCount: {
+      type: Number,
+      default: 0,
+    },
+  },
+  { timestamps: true }
+);
+
+dictationSchema.index({ difficulty: 1 });
+dictationSchema.index({ uploadedBy: 1 });
+dictationSchema.index({ isActive: 1 });
+dictationSchema.index({ title: 'text', description: 'text' });
+
+module.exports = mongoose.model('Dictation', dictationSchema);
