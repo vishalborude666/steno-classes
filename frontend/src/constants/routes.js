@@ -7,6 +7,7 @@ export const ROUTES = {
   // Student
   STUDENT_DASHBOARD: '/dashboard',
   PRACTICE: '/practice',
+  MARATHI_PRACTICE: '/marathi-practice',
   AI_DICTATION: '/ai-dictation',
   PRACTICE_EDITOR: '/practice/:id',
   HISTORY: '/history',

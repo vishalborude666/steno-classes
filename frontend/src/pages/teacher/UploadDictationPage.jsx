@@ -14,7 +14,7 @@ const UploadDictationPage = () => {
   const [activeTab, setActiveTab] = useState(0)
   const [audioFile, setAudioFile] = useState(null)
   const [form, setForm] = useState({
-    title: '', description: '', transcript: '', difficulty: 'medium',
+    title: '', description: '', transcript: '', difficulty: 'medium', language: 'english',
   })
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -40,7 +40,7 @@ const UploadDictationPage = () => {
 
     const res = await dispatch(createDictation(formData))
     if (createDictation.fulfilled.match(res)) {
-      setForm({ title: '', description: '', transcript: '', difficulty: 'medium' })
+      setForm({ title: '', description: '', transcript: '', difficulty: 'medium', language: 'english' })
       setAudioFile(null)
     }
   }
@@ -76,6 +76,13 @@ const UploadDictationPage = () => {
                 <option value="easy">Easy</option>
                 <option value="medium">Medium</option>
                 <option value="hard">Hard</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Language</label>
+              <select name="language" value={form.language} onChange={handleChange} className="input-field w-40">
+                <option value="english">English</option>
+                <option value="marathi">Marathi (मराठी)</option>
               </select>
             </div>
           </div>

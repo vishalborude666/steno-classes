@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { DIFFICULTY } = require('../config/constants');
+const { DIFFICULTY, LANGUAGE } = require('../config/constants');
 
 const dictationSchema = new mongoose.Schema(
   {
@@ -45,6 +45,11 @@ const dictationSchema = new mongoose.Schema(
       enum: Object.values(DIFFICULTY),
       default: DIFFICULTY.MEDIUM,
     },
+    language: {
+      type: String,
+      enum: Object.values(LANGUAGE),
+      default: LANGUAGE.ENGLISH,
+    },
     uploadedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -63,6 +68,7 @@ const dictationSchema = new mongoose.Schema(
 );
 
 dictationSchema.index({ difficulty: 1 });
+dictationSchema.index({ language: 1 });
 dictationSchema.index({ uploadedBy: 1 });
 dictationSchema.index({ isActive: 1 });
 dictationSchema.index({ title: 'text', description: 'text' });

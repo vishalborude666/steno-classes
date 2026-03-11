@@ -5,10 +5,11 @@ const { sendSuccess, sendError } = require('../utils/apiResponse');
 
 const getDictations = async (req, res, next) => {
   try {
-    const { difficulty, search, page = 1, limit = 12 } = req.query;
+    const { difficulty, language, search, page = 1, limit = 12 } = req.query;
     const filter = { isActive: true };
 
     if (difficulty) filter.difficulty = difficulty;
+    if (language) filter.language = language;
     if (search) filter.$text = { $search: search };
 
     const skip = (parseInt(page) - 1) * parseInt(limit);
@@ -43,7 +44,7 @@ const getDictation = async (req, res, next) => {
 
 const createDictation = async (req, res, next) => {
   try {
-    const { title, description, transcript, youtubeLink, difficulty } = req.body;
+    const { title, description, transcript, youtubeLink, difficulty, language } = req.body;
 
     const dictationData = {
       title,
@@ -51,6 +52,7 @@ const createDictation = async (req, res, next) => {
       transcript,
       youtubeLink,
       difficulty,
+      language: language || 'english',
       uploadedBy: req.user._id,
     };
 
@@ -76,8 +78,8 @@ const updateDictation = async (req, res, next) => {
       return sendError(res, 403, 'Not authorized to edit this dictation');
     }
 
-    const { title, description, transcript, youtubeLink, difficulty } = req.body;
-    const updates = { title, description, transcript, youtubeLink, difficulty };
+    const { title, description, transcript, youtubeLink, difficulty, language } = req.body;
+    const updates = { title, description, transcript, youtubeLink, difficulty, language };
 
     if (req.file) {
       // Delete old audio from cloudinary if exists

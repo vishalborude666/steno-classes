@@ -2,13 +2,14 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   LayoutDashboard, Mic, History, Trophy, Calendar,
-  Upload, FileText, Users, Settings, BarChart3, ShieldCheck, LogOut, X, Youtube, BookOpen, Sparkles
+  Upload, FileText, Users, Settings, BarChart3, ShieldCheck, LogOut, X, Youtube, BookOpen, Sparkles, Type
 } from 'lucide-react'
 import { logout } from '../../features/auth/authSlice'
 
 const studentLinks = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/practice', icon: Mic, label: 'Practice' },
+  { to: '/marathi-practice', icon: Type, label: 'मराठी सराव' },
   { to: '/ai-dictation', icon: Sparkles, label: 'AI Dictation' },
   { to: '/daily-challenge', icon: Calendar, label: 'Daily Challenge' },
   { to: '/history', icon: History, label: 'My History' },

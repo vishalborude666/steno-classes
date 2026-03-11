@@ -25,6 +25,7 @@ import LearningVideosPage from './pages/student/LectureVideosPage'
 import CoursesPage from './pages/student/CoursesPage'
 import CoursePlayerPage from './pages/student/CoursePlayerPage'
 import AIDictationPage from './pages/student/AIDictationPage'
+import MarathiPracticePage from './pages/student/MarathiPracticePage'
 
 // Pages - Teacher
 import TeacherDashboard from './pages/teacher/TeacherDashboard'
@@ -66,6 +67,7 @@ function App() {
         {/* Student routes */}
         <Route path="/dashboard" element={<ProtectedRoute><RoleRoute allowedRoles={['student']}><StudentDashboard /></RoleRoute></ProtectedRoute>} />
         <Route path="/practice" element={<ProtectedRoute><PracticePage /></ProtectedRoute>} />
+        <Route path="/marathi-practice" element={<ProtectedRoute><MarathiPracticePage /></ProtectedRoute>} />
         <Route path="/practice/:id" element={<ProtectedRoute><PracticeEditorPage /></ProtectedRoute>} />
         <Route path="/history" element={<ProtectedRoute><RoleRoute allowedRoles={['student']}><PracticeHistoryPage /></RoleRoute></ProtectedRoute>} />
         <Route path="/leaderboard" element={<ProtectedRoute><LeaderboardPage /></ProtectedRoute>} />

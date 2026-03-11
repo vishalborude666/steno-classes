@@ -10,4 +10,9 @@ const DIFFICULTY = {
   HARD: 'hard',
 };
 
-module.exports = { ROLES, DIFFICULTY };
+const LANGUAGE = {
+  ENGLISH: 'english',
+  MARATHI: 'marathi',
+};
+
+module.exports = { ROLES, DIFFICULTY, LANGUAGE };

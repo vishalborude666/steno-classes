@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Surekh Font for Marathi Shorthand */
+@font-face {
+  font-family: 'Surekh';
+  src: url('/fonts/Surekh.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-surekh {
+  font-family: 'Surekh', 'Mangal', 'Noto Sans Devanagari', sans-serif;
+}
+
 @layer base {
   * {
     @apply border-gray-200 dark:border-gray-700;
