@@ -29,9 +29,7 @@ const Navbar = ({ showSidebarToggle = false }) => {
             </button>
           )}
           <Link to="/" className="flex items-center gap-2.5 font-bold text-primary-700 dark:text-primary-400">
-            <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-white font-extrabold text-lg shadow-md">
-              S
-            </div>
+            <img src="/logo.png" alt="Lucent Shorthand Classes" className="h-9 w-9 rounded-lg object-contain shadow-md" />
             <span className="hidden sm:inline text-base">Lucent Shorthand Classes</span>
           </Link>
         </div>
