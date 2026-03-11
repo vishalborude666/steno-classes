@@ -28,9 +28,9 @@ const AdminDashboard = () => {
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Welcome */}
         <div className="card bg-gradient-to-r from-primary-700 to-primary-900 text-white">
-          <p className="text-blue-200 text-sm mb-1">Admin Panel</p>
+          <p className="text-purple-200 text-sm mb-1">Admin Panel</p>
           <h1 className="text-2xl font-bold">{user?.name}</h1>
-          <p className="text-blue-200 text-sm mt-1">Full platform control and analytics</p>
+          <p className="text-purple-200 text-sm mt-1">Full platform control and analytics</p>
         </div>
 
         {/* Stats */}

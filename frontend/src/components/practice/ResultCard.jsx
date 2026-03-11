@@ -88,7 +88,7 @@ const ResultCard = ({ result, dictationId, onRetry, transcript, typedText }) => 
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-          <div className="bg-blue-50 dark:bg-blue-950/30 rounded-xl p-4 text-center">
+          <div className="bg-purple-50 dark:bg-purple-950/30 rounded-xl p-4 text-center">
             <Zap size={20} className={`mx-auto mb-1 ${getWPMColor(wpm)}`} />
             <p className={`text-3xl font-extrabold ${getWPMColor(wpm)}`}>{wpm}</p>
             <p className="text-xs text-gray-500">WPM</p>

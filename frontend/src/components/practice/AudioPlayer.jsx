@@ -61,7 +61,7 @@ const AudioPlayer = ({ audioUrl }) => {
   const progress = duration > 0 ? (currentTime / duration) * 100 : 0
 
   return (
-    <div className="card p-3 bg-gradient-to-r from-primary-50 to-blue-50 dark:from-primary-950/50 dark:to-blue-950/50">
+    <div className="card p-3 bg-gradient-to-r from-primary-50 to-purple-50 dark:from-primary-950/50 dark:to-purple-950/50">
       <audio
         ref={audioRef}
         src={audioUrl}

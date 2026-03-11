@@ -131,7 +131,7 @@ const ManageCoursesPage = () => {
                       <div className="flex gap-1">
                         <button
                           onClick={() => navigate(`/teacher/courses/${c._id}`)}
-                          className="p-1.5 text-blue-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                          className="p-1.5 text-purple-400 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg transition-colors"
                           title="View & Manage Lessons"
                         >
                           <Eye size={14} />

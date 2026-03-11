@@ -25,7 +25,7 @@ const ForgotPasswordPage = () => {
             <BookOpen size={32} className="text-white" />
           </div>
           <h1 className="text-3xl font-bold text-white">Lucent Shorthand Classes</h1>
-          <p className="text-blue-200 mt-1">Reset your password</p>
+          <p className="text-purple-200 mt-1">Reset your password</p>
         </div>
 
         <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8">

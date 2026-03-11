@@ -55,8 +55,8 @@ const CourseAnalyticsPage = () => {
             </div>
           </div>
           <div className="card p-5 flex items-center gap-4">
-            <div className="p-3 rounded-xl bg-blue-100 dark:bg-blue-900/30">
-              <Users size={24} className="text-blue-600 dark:text-blue-400" />
+            <div className="p-3 rounded-xl bg-purple-100 dark:bg-purple-900/30">
+              <Users size={24} className="text-purple-600 dark:text-purple-400" />
             </div>
             <div>
               <p className="text-sm text-gray-500 dark:text-gray-400">Total Students</p>

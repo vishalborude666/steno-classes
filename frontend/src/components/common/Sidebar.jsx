@@ -72,7 +72,7 @@ const Sidebar = ({ onClose }) => {
             <img src="/logo.png" alt="Lucent Shorthand Classes" className="h-10 w-10 rounded-lg flex-shrink-0" />
             <span className="text-white font-bold text-sm leading-tight">Lucent Shorthand<br />Classes</span>
           </div>
-          <button onClick={onClose} className="md:hidden text-blue-200 hover:text-white p-1">
+          <button onClick={onClose} className="md:hidden text-purple-200 hover:text-white p-1">
             <X size={18} />
           </button>
         </div>
@@ -80,12 +80,12 @@ const Sidebar = ({ onClose }) => {
         {/* User info */}
         <div className="px-5 py-4 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg">
+            <div className="h-10 w-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold text-lg">
               {user?.name?.charAt(0).toUpperCase()}
             </div>
             <div>
               <p className="text-white font-semibold text-sm truncate max-w-[140px]">{user?.name}</p>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/30 text-blue-200 capitalize">
+              <span className="text-xs px-2 py-0.5 rounded-full bg-purple-500/30 text-purple-200 capitalize">
                 {user?.role}
               </span>
             </div>

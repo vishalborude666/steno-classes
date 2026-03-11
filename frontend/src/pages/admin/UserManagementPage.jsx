@@ -8,7 +8,7 @@ import { formatDate, capitalize } from '../../utils/formatters'
 import { useDebounce } from '../../hooks/useDebounce'
 
 const roleBadge = {
-  student: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+  student: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
   teacher: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
   admin: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400',
 }

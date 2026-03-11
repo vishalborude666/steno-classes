@@ -5,12 +5,12 @@ import { Mic, Trophy, BarChart3, Shield, Zap, Users, ArrowRight, Play, Sparkles,
 import Navbar from '../../components/common/Navbar'
 
 const features = [
-  { icon: Mic, title: 'Audio Dictation', desc: 'Listen to real stenography audio with speed controls (0.5x–2x).', color: 'from-blue-500 to-cyan-400', shadow: 'shadow-blue-500/20' },
+  { icon: Mic, title: 'Audio Dictation', desc: 'Listen to real stenography audio with speed controls (0.5x–2x).', color: 'from-purple-500 to-cyan-400', shadow: 'shadow-purple-500/20' },
   { icon: Zap, title: 'Instant Scoring', desc: 'Get real-time WPM and accuracy calculated the moment you submit.', color: 'from-amber-500 to-orange-400', shadow: 'shadow-amber-500/20' },
   { icon: Trophy, title: 'Leaderboard', desc: 'Compete with other students and climb the global rankings.', color: 'from-emerald-500 to-teal-400', shadow: 'shadow-emerald-500/20' },
   { icon: BarChart3, title: 'Progress Tracking', desc: 'Visualize your improvement with charts and detailed history.', color: 'from-purple-500 to-violet-400', shadow: 'shadow-purple-500/20' },
   { icon: Users, title: 'Teacher Tools', desc: 'Upload audio, YouTube links, and manage your student reports.', color: 'from-pink-500 to-rose-400', shadow: 'shadow-pink-500/20' },
-  { icon: Shield, title: 'Secure Platform', desc: 'Rate-limited, JWT-authenticated, and role-based access control.', color: 'from-indigo-500 to-blue-400', shadow: 'shadow-indigo-500/20' },
+  { icon: Shield, title: 'Secure Platform', desc: 'Rate-limited, JWT-authenticated, and role-based access control.', color: 'from-indigo-500 to-purple-400', shadow: 'shadow-indigo-500/20' },
 ]
 
 // Typing animation hook
@@ -141,13 +141,13 @@ const LandingPage = () => {
           <div className="absolute top-[15%] left-[8%] w-16 h-16 border-2 border-white/10 rounded-2xl animate-float rotate-12" />
           <div className="absolute top-[25%] right-[12%] w-10 h-10 border-2 border-white/10 rounded-full animate-float-delayed" />
           <div className="absolute bottom-[20%] left-[15%] w-12 h-12 border-2 border-cyan-400/15 rounded-lg animate-float-slow rotate-45" />
-          <div className="absolute bottom-[30%] right-[8%] w-8 h-8 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-lg animate-float rotate-6" />
+          <div className="absolute bottom-[30%] right-[8%] w-8 h-8 bg-gradient-to-br from-purple-400/10 to-purple-400/10 rounded-lg animate-float rotate-6" />
           <div className="absolute top-[60%] left-[5%] w-6 h-6 bg-amber-400/10 rounded-full animate-float-delayed" />
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 glass rounded-full px-5 py-2.5 text-sm text-blue-200 mb-10 animate-bounce-in">
+          <div className="inline-flex items-center gap-2 glass rounded-full px-5 py-2.5 text-sm text-purple-200 mb-10 animate-bounce-in">
             <Sparkles size={16} className="text-amber-400 animate-pulse" />
             <span>Professional Stenography Training Platform</span>
           </div>
@@ -161,7 +161,7 @@ const LandingPage = () => {
           >
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight">
               <span className="block animate-slide-in-left">Master</span>
-              <span className="block bg-gradient-to-r from-blue-300 via-cyan-300 to-purple-300 bg-clip-text text-transparent animate-slide-in-right">
+              <span className="block bg-gradient-to-r from-purple-300 via-cyan-300 to-purple-300 bg-clip-text text-transparent animate-slide-in-right">
                 Stenography
               </span>
             </h1>
@@ -176,7 +176,7 @@ const LandingPage = () => {
           </div>
 
           {/* Subtitle */}
-          <p className="text-lg md:text-xl text-blue-100/70 mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in">
+          <p className="text-lg md:text-xl text-purple-100/70 mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in">
             Listen to dictation audio, type your best, and track your speed & accuracy in real time.
           </p>
 
@@ -185,7 +185,7 @@ const LandingPage = () => {
             {isAuthenticated ? (
               <Link
                 to={dashboardPath[user?.role] || '/dashboard'}
-                className="group relative inline-flex items-center gap-3 bg-white text-primary-700 font-bold px-8 py-4 rounded-2xl text-lg shadow-2xl shadow-blue-500/10 hover:shadow-blue-500/30 transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.02]"
+                className="group relative inline-flex items-center gap-3 bg-white text-primary-700 font-bold px-8 py-4 rounded-2xl text-lg shadow-2xl shadow-purple-500/10 hover:shadow-purple-500/30 transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.02]"
               >
                 <LayoutDashboard size={20} className="group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
                 Go to Dashboard
@@ -195,9 +195,9 @@ const LandingPage = () => {
               <>
                 <Link
                   to="/login"
-                  className="group relative inline-flex items-center gap-3 bg-white text-primary-700 font-bold px-8 py-4 rounded-2xl text-lg shadow-2xl shadow-blue-500/10 hover:shadow-blue-500/30 transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.02]"
+                  className="group relative inline-flex items-center gap-3 bg-white text-primary-700 font-bold px-8 py-4 rounded-2xl text-lg shadow-2xl shadow-purple-500/10 hover:shadow-purple-500/30 transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.02]"
                 >
-                  <Play size={20} className="group-hover:scale-125 group-hover:text-blue-600 transition-all duration-300" />
+                  <Play size={20} className="group-hover:scale-125 group-hover:text-purple-600 transition-all duration-300" />
                   Start Practicing
                   <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform duration-300" />
                 </Link>
@@ -215,7 +215,7 @@ const LandingPage = () => {
           <div className="relative mt-16 flex justify-center gap-6 animate-fade-in">
             {[Headphones, Keyboard, Target].map((Icon, i) => (
               <div key={i} className="h-12 w-12 rounded-2xl glass flex items-center justify-center animate-float" style={{ animationDelay: `${i * 0.8}s` }}>
-                <Icon size={20} className="text-blue-300/70" />
+                <Icon size={20} className="text-purple-300/70" />
               </div>
             ))}
           </div>
@@ -232,7 +232,7 @@ const LandingPage = () => {
       {/* ═══════════════════════ FEATURES — 3D Interactive Cards ═══════════════════════ */}
       <section className="py-28 px-4 relative">
         {/* Background accents */}
-        <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-gradient-to-br from-blue-100/30 to-purple-100/20 dark:from-blue-900/5 dark:to-purple-900/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-gradient-to-br from-purple-100/30 to-purple-100/20 dark:from-purple-900/5 dark:to-purple-900/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-20 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-cyan-100/20 to-emerald-100/10 dark:from-cyan-900/5 dark:to-emerald-900/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-6xl mx-auto relative z-10">
@@ -294,10 +294,10 @@ const LandingPage = () => {
 
           <div className="grid md:grid-cols-3 gap-10 relative">
             {/* Connecting line */}
-            <div className="hidden md:block absolute top-10 left-[18%] right-[18%] h-0.5 bg-gradient-to-r from-blue-300 via-purple-300 to-emerald-300 dark:from-blue-700 dark:via-purple-700 dark:to-emerald-700 opacity-40" />
+            <div className="hidden md:block absolute top-10 left-[18%] right-[18%] h-0.5 bg-gradient-to-r from-purple-300 via-purple-300 to-emerald-300 dark:from-purple-700 dark:via-purple-700 dark:to-emerald-700 opacity-40" />
 
             {[
-              { step: '01', title: 'Listen', desc: 'Pick a dictation audio and listen at your preferred speed.', gradient: 'from-blue-600 to-cyan-500', icon: Headphones },
+              { step: '01', title: 'Listen', desc: 'Pick a dictation audio and listen at your preferred speed.', gradient: 'from-purple-600 to-cyan-500', icon: Headphones },
               { step: '02', title: 'Type', desc: 'Type what you hear in the live editor with real-time diff highlighting.', gradient: 'from-purple-600 to-pink-500', icon: Keyboard },
               { step: '03', title: 'Improve', desc: 'Get instant WPM & accuracy scores. Track your progress over time.', gradient: 'from-emerald-600 to-teal-500', icon: Target },
             ].map(({ step, title, desc, gradient, icon: StepIcon }, i) => (
@@ -328,7 +328,7 @@ const LandingPage = () => {
       <section className="relative py-32 px-4 overflow-hidden">
         <div className="absolute inset-0 hero-gradient" />
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-10 w-64 h-64 bg-blue-400/10 blob-shape animate-float blur-2xl" />
+          <div className="absolute top-10 left-10 w-64 h-64 bg-purple-400/10 blob-shape animate-float blur-2xl" />
           <div className="absolute bottom-10 right-10 w-72 h-72 bg-purple-400/10 blob-shape animate-float-delayed blur-2xl" />
           {/* Floating shapes */}
           <div className="absolute top-[20%] right-[15%] w-14 h-14 border-2 border-white/10 rounded-2xl animate-float rotate-12" />
@@ -339,9 +339,9 @@ const LandingPage = () => {
           <div className="reveal">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight">
               Ready to start your{' '}
-              <span className="bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent">journey</span>?
+              <span className="bg-gradient-to-r from-cyan-300 to-purple-300 bg-clip-text text-transparent">journey</span>?
             </h2>
-            <p className="text-blue-200/70 mb-12 text-lg max-w-lg mx-auto">
+            <p className="text-purple-200/70 mb-12 text-lg max-w-lg mx-auto">
               Contact your teacher to get your login credentials and start improving today.
             </p>
             {isAuthenticated ? (

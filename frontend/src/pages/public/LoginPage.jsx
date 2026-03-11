@@ -32,7 +32,7 @@ const LoginPage = () => {
             <img src="/logo.png" alt="Lucent Shorthand Classes" className="h-14 w-14 object-contain" />
           </div>
           <h1 className="text-3xl font-bold text-white">Lucent Shorthand Classes</h1>
-          <p className="text-blue-200 mt-1">Stenography Practice Platform</p>
+          <p className="text-purple-200 mt-1">Stenography Practice Platform</p>
         </div>
 
         {/* Card */}

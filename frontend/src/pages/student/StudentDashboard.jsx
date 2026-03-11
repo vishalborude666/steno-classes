@@ -28,11 +28,11 @@ const StudentDashboard = () => {
         <div className="card bg-gradient-to-r from-primary-700 to-primary-900 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-blue-200 text-sm mb-1">Welcome back</p>
+              <p className="text-purple-200 text-sm mb-1">Welcome back</p>
               <h1 className="text-2xl font-bold">{user?.name} 👋</h1>
-              <p className="text-blue-200 text-sm mt-1">Keep practicing to improve your stenography skills</p>
+              <p className="text-purple-200 text-sm mt-1">Keep practicing to improve your stenography skills</p>
             </div>
-            <Link to="/practice" className="btn-primary bg-white text-primary-700 hover:bg-blue-50 flex items-center gap-2 whitespace-nowrap">
+            <Link to="/practice" className="btn-primary bg-white text-primary-700 hover:bg-purple-50 flex items-center gap-2 whitespace-nowrap">
               Practice Now <ArrowRight size={16} />
             </Link>
           </div>
