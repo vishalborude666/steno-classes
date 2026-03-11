@@ -177,6 +177,52 @@ const addLesson = async (req, res, next) => {
   }
 };
 
+const addBulkLessons = async (req, res, next) => {
+  try {
+    const course = await Course.findById(req.params.courseId);
+    if (!course) return sendError(res, 404, 'Course not found');
+
+    if (req.user.role === 'teacher' && course.createdBy.toString() !== req.user._id.toString()) {
+      return sendError(res, 403, 'Not authorized');
+    }
+
+    if (!req.files || req.files.length === 0) {
+      return sendError(res, 400, 'At least one video file is required');
+    }
+
+    // Parse titles from body (sent as titles[0], titles[1], etc. or as JSON array)
+    let titles = [];
+    if (Array.isArray(req.body.titles)) {
+      titles = req.body.titles;
+    } else if (typeof req.body.titles === 'string') {
+      titles = [req.body.titles];
+    }
+
+    // Get current max order
+    const lastLesson = await Lesson.findOne({ courseId: course._id }).sort({ order: -1 });
+    let nextOrder = lastLesson ? lastLesson.order + 1 : 1;
+
+    const lessons = [];
+    for (let i = 0; i < req.files.length; i++) {
+      const file = req.files[i];
+      // Use provided title or derive from filename
+      const title = titles[i]?.trim() || file.originalname.replace(/\.[^/.]+$/, '');
+      const lesson = await Lesson.create({
+        courseId: course._id,
+        title,
+        videoUrl: file.path,
+        videoPublicId: file.filename,
+        order: nextOrder++,
+      });
+      lessons.push(lesson);
+    }
+
+    sendSuccess(res, 201, `${lessons.length} lesson(s) added`, { lessons });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const updateLesson = async (req, res, next) => {
   try {
     const lesson = await Lesson.findById(req.params.lessonId);
@@ -262,6 +308,7 @@ module.exports = {
   updateCourse,
   deleteCourse,
   addLesson,
+  addBulkLessons,
   updateLesson,
   deleteLesson,
   getCourseAnalytics,

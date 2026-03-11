@@ -68,6 +68,18 @@ export const addLesson = createAsyncThunk('course/addLesson', async ({ courseId,
   }
 })
 
+export const addBulkLessons = createAsyncThunk('course/addBulkLessons', async ({ courseId, formData }, { rejectWithValue }) => {
+  try {
+    const { data } = await api.post(`/courses/${courseId}/lessons/bulk`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    toast.success(`${data.data.lessons.length} lesson(s) uploaded!`)
+    return data.data.lessons
+  } catch (error) {
+    return rejectWithValue(error.response?.data?.message || 'Failed to upload videos')
+  }
+})
+
 export const updateLesson = createAsyncThunk('course/updateLesson', async ({ courseId, lessonId, formData }, { rejectWithValue }) => {
   try {
     const { data } = await api.put(`/courses/${courseId}/lessons/${lessonId}`, formData, {
@@ -198,6 +210,13 @@ const courseSlice = createSlice({
         }
       })
       .addCase(addLesson.rejected, (_, action) => { toast.error(action.payload) })
+      // Bulk add lessons
+      .addCase(addBulkLessons.fulfilled, (state, action) => {
+        if (state.currentCourse?.lessons) {
+          state.currentCourse.lessons.push(...action.payload)
+        }
+      })
+      .addCase(addBulkLessons.rejected, (_, action) => { toast.error(action.payload) })
       // Update lesson
       .addCase(updateLesson.fulfilled, (state, action) => {
         if (state.currentCourse?.lessons) {

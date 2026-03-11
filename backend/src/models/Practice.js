@@ -10,7 +10,16 @@ const practiceSchema = new mongoose.Schema(
     dictationId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Dictation',
-      required: true,
+    },
+    isAI: {
+      type: Boolean,
+      default: false,
+    },
+    aiTopic: {
+      type: String,
+    },
+    transcript: {
+      type: String,
     },
     typedText: {
       type: String,

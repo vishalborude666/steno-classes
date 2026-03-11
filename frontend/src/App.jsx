@@ -24,6 +24,7 @@ import DailyChallengePage from './pages/student/DailyChallengePage'
 import LearningVideosPage from './pages/student/LectureVideosPage'
 import CoursesPage from './pages/student/CoursesPage'
 import CoursePlayerPage from './pages/student/CoursePlayerPage'
+import AIDictationPage from './pages/student/AIDictationPage'
 
 // Pages - Teacher
 import TeacherDashboard from './pages/teacher/TeacherDashboard'
@@ -70,6 +71,7 @@ function App() {
         <Route path="/leaderboard" element={<ProtectedRoute><LeaderboardPage /></ProtectedRoute>} />
         <Route path="/daily-challenge" element={<ProtectedRoute><DailyChallengePage /></ProtectedRoute>} />
         <Route path="/lectures" element={<ProtectedRoute><LearningVideosPage /></ProtectedRoute>} />
+        <Route path="/ai-dictation" element={<ProtectedRoute><AIDictationPage /></ProtectedRoute>} />
         <Route path="/student/courses" element={<ProtectedRoute><RoleRoute allowedRoles={['student']}><CoursesPage /></RoleRoute></ProtectedRoute>} />
         <Route path="/student/courses/:id" element={<ProtectedRoute><RoleRoute allowedRoles={['student']}><CoursePlayerPage /></RoleRoute></ProtectedRoute>} />
 

@@ -47,6 +47,12 @@ const uploadVideo = multer({
   limits: { fileSize: 500 * 1024 * 1024 }, // 500 MB
 }).single('video');
 
+// Multiple video upload (up to 10)
+const uploadMultipleVideos = multer({
+  storage: videoStorage,
+  limits: { fileSize: 500 * 1024 * 1024 },
+}).array('videos', 10);
+
 // Thumbnail storage for courses
 const thumbnailStorage = new CloudinaryStorage({
   cloudinary,
@@ -62,4 +68,4 @@ const uploadThumbnail = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
 }).single('thumbnail');
 
-module.exports = { uploadAudio, uploadPdf, uploadVideo, uploadThumbnail };
+module.exports = { uploadAudio, uploadPdf, uploadVideo, uploadMultipleVideos, uploadThumbnail };

@@ -27,12 +27,21 @@ const HistoryTable = ({ history }) => {
           {history.map((p) => (
             <tr key={p._id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
               <td className="py-3 px-2 font-medium text-gray-900 dark:text-white max-w-[200px] truncate">
-                {p.dictationId?.title || '—'}
+                {p.isAI ? (
+                  <span className="flex items-center gap-1.5">
+                    <span className="text-[10px] bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded font-bold">AI</span>
+                    {p.aiTopic || 'Random'}
+                  </span>
+                ) : (p.dictationId?.title || '—')}
               </td>
               <td className="py-3 px-2">
-                <span className={badgeClass[p.dictationId?.difficulty] || 'badge-medium'}>
-                  {p.dictationId?.difficulty || '—'}
-                </span>
+                {p.isAI ? (
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400">ai</span>
+                ) : (
+                  <span className={badgeClass[p.dictationId?.difficulty] || 'badge-medium'}>
+                    {p.dictationId?.difficulty || '—'}
+                  </span>
+                )}
               </td>
               <td className={`py-3 px-2 font-bold ${getWPMColor(p.wpm)}`}>{p.wpm}</td>
               <td className={`py-3 px-2 font-bold ${getAccuracyColor(p.accuracy)}`}>{p.accuracy}%</td>

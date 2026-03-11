@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ClipboardPaste, Send } from 'lucide-react'
 import AudioPlayer from './AudioPlayer'
 import Timer from './Timer'
-import DiffHighlighter from './DiffHighlighter'
-import LiveDiffEditor from './LiveDiffEditor'
 import ResultCard from './ResultCard'
 import { submitPractice } from '../../features/practice/practiceSlice'
 import { calculateWPM, calculateAccuracy } from '../../utils/wpmCalculator'
@@ -19,7 +17,6 @@ const PracticeEditor = ({ dictation }) => {
   const [elapsed, setElapsed] = useState(0)
   const [timerExpired, setTimerExpired] = useState(false)
   const [result, setResult] = useState(null)
-  const [showDiff, setShowDiff] = useState(false)
   const [timerStarted, setTimerStarted] = useState(false)
   const textareaRef = useRef(null)
   const startTimeRef = useRef(null)
@@ -74,7 +71,6 @@ const PracticeEditor = ({ dictation }) => {
     setElapsed(0)
     setTimerExpired(false)
     setResult(null)
-    setShowDiff(false)
     setTimerStarted(false)
     startTimeRef.current = null
   }
@@ -92,20 +88,13 @@ const PracticeEditor = ({ dictation }) => {
 
   if (result) {
     return (
-      <div className="space-y-6">
-        <ResultCard result={result} dictationId={dictation._id} onRetry={handleRetry} />
-        {dictation.transcript && (
-          <div className="card">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-gray-900 dark:text-white">Transcript Comparison</h3>
-              <button onClick={() => setShowDiff(!showDiff)} className="text-sm text-primary-600 hover:underline">
-                {showDiff ? 'Hide' : 'Show'} diff
-              </button>
-            </div>
-            {showDiff && <DiffHighlighter original={dictation.transcript} typed={typedText} />}
-          </div>
-        )}
-      </div>
+      <ResultCard
+        result={result}
+        dictationId={dictation._id}
+        onRetry={handleRetry}
+        transcript={dictation.transcript}
+        typedText={typedText}
+      />
     )
   }
 
@@ -141,35 +130,22 @@ const PracticeEditor = ({ dictation }) => {
       {/* Right: Typing area (wider) */}
       <div className="lg:col-span-3 space-y-4">
         <div className="card">
-          {dictation.transcript ? (
-            /* Side-by-side live diff view when transcript is available */
-            <LiveDiffEditor
-              transcript={dictation.transcript}
-              typedText={typedText}
-              onTextChange={handleTextChange}
-              disabled={timerExpired}
-            />
-          ) : (
-            /* Plain textarea when no transcript */
-            <>
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-gray-900 dark:text-white">Your Transcription</h3>
-                <span className="text-xs text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
-                  {typedText.trim().split(/\s+/).filter(Boolean).length} words
-                </span>
-              </div>
-              <textarea
-                ref={textareaRef}
-                value={typedText}
-                onChange={handleTextChange}
-                onPaste={handlePaste}
-                placeholder="Start typing here as you listen to the dictation... (paste is disabled for fair practice)"
-                rows={14}
-                className="w-full resize-none font-mono text-sm input-field leading-relaxed"
-                disabled={timerExpired}
-              />
-            </>
-          )}
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-semibold text-gray-900 dark:text-white">Your Transcription</h3>
+            <span className="text-xs text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+              {typedText.trim().split(/\s+/).filter(Boolean).length} words
+            </span>
+          </div>
+          <textarea
+            ref={textareaRef}
+            value={typedText}
+            onChange={handleTextChange}
+            onPaste={handlePaste}
+            placeholder="Start typing here as you listen to the dictation... (paste is disabled for fair practice)"
+            rows={14}
+            className="w-full resize-none font-mono text-sm input-field leading-relaxed"
+            disabled={timerExpired}
+          />
 
           <div className="flex items-center justify-between mt-3">
             <p className="text-xs text-gray-400 flex items-center gap-1">

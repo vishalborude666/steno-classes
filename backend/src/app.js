@@ -13,6 +13,7 @@ const teacherRoutes = require('./routes/teacherRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const learningVideoRoutes = require('./routes/learningVideoRoutes');
 const courseRoutes = require('./routes/courseRoutes');
+const aiDictationRoutes = require('./routes/aiDictationRoutes');
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use('/api/teacher', teacherRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/learning-videos', learningVideoRoutes);
 app.use('/api/courses', courseRoutes);
+app.use('/api/ai-dictation', aiDictationRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok', env: process.env.NODE_ENV }));

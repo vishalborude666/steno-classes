@@ -6,6 +6,7 @@ const {
   updateCourse,
   deleteCourse,
   addLesson,
+  addBulkLessons,
   updateLesson,
   deleteLesson,
   getCourseAnalytics,
@@ -13,7 +14,7 @@ const {
 const { createOrder, verifyPayment, getMyEnrollments } = require('../controllers/paymentController');
 const { protect } = require('../middleware/authMiddleware');
 const { isRole } = require('../middleware/roleMiddleware');
-const { uploadVideo, uploadThumbnail } = require('../middleware/uploadMiddleware');
+const { uploadVideo, uploadMultipleVideos, uploadThumbnail } = require('../middleware/uploadMiddleware');
 
 const router = express.Router();
 
@@ -35,6 +36,7 @@ router.delete('/:id', isRole('teacher', 'admin'), deleteCourse);
 
 // Teacher/Admin routes - lessons
 router.post('/:courseId/lessons', isRole('teacher', 'admin'), uploadVideo, addLesson);
+router.post('/:courseId/lessons/bulk', isRole('teacher', 'admin'), uploadMultipleVideos, addBulkLessons);
 router.put('/:courseId/lessons/:lessonId', isRole('teacher', 'admin'), uploadVideo, updateLesson);
 router.delete('/:courseId/lessons/:lessonId', isRole('teacher', 'admin'), deleteLesson);
 

@@ -6,6 +6,7 @@ import userReducer from '../features/user/userSlice'
 import uiReducer from '../features/ui/uiSlice'
 import learningVideoReducer from '../features/learningVideo/learningVideoSlice'
 import courseReducer from '../features/course/courseSlice'
+import aiDictationReducer from '../features/aiDictation/aiDictationSlice'
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     ui: uiReducer,
     learningVideo: learningVideoReducer,
     course: courseReducer,
+    aiDictation: aiDictationReducer,
   },
 })
