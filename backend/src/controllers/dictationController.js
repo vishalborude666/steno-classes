@@ -9,7 +9,7 @@ const getDictations = async (req, res, next) => {
     const filter = { isActive: true };
 
     if (difficulty) filter.difficulty = difficulty;
-    if (language) filter.language = language;
+    if (language) filter.dictationLanguage = language;
     if (search) filter.$text = { $search: search };
 
     const skip = (parseInt(page) - 1) * parseInt(limit);
@@ -52,7 +52,7 @@ const createDictation = async (req, res, next) => {
       transcript,
       youtubeLink,
       difficulty,
-      language: language || 'english',
+      dictationLanguage: language || 'english',
       uploadedBy: req.user._id,
     };
 
@@ -79,7 +79,7 @@ const updateDictation = async (req, res, next) => {
     }
 
     const { title, description, transcript, youtubeLink, difficulty, language } = req.body;
-    const updates = { title, description, transcript, youtubeLink, difficulty, language };
+    const updates = { title, description, transcript, youtubeLink, difficulty, dictationLanguage: language };
 
     if (req.file) {
       // Delete old audio from cloudinary if exists

@@ -45,7 +45,7 @@ const dictationSchema = new mongoose.Schema(
       enum: Object.values(DIFFICULTY),
       default: DIFFICULTY.MEDIUM,
     },
-    language: {
+    dictationLanguage: {
       type: String,
       enum: Object.values(LANGUAGE),
       default: LANGUAGE.ENGLISH,
@@ -68,9 +68,9 @@ const dictationSchema = new mongoose.Schema(
 );
 
 dictationSchema.index({ difficulty: 1 });
-dictationSchema.index({ language: 1 });
+dictationSchema.index({ dictationLanguage: 1 });
 dictationSchema.index({ uploadedBy: 1 });
 dictationSchema.index({ isActive: 1 });
-dictationSchema.index({ title: 'text', description: 'text' });
+dictationSchema.index({ title: 'text', description: 'text' }, { language_override: 'searchLanguage' });
 
 module.exports = mongoose.model('Dictation', dictationSchema);

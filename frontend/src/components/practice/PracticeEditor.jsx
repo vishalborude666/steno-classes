@@ -94,7 +94,7 @@ const PracticeEditor = ({ dictation }) => {
         onRetry={handleRetry}
         transcript={dictation.transcript}
         typedText={typedText}
-        language={dictation.language}
+        language={dictation.dictationLanguage}
       />
     )
   }
@@ -142,9 +142,9 @@ const PracticeEditor = ({ dictation }) => {
             value={typedText}
             onChange={handleTextChange}
             onPaste={handlePaste}
-            placeholder={dictation.language === 'marathi' ? 'येथे टाइप करा... (पेस्ट अक्षम आहे)' : 'Start typing here as you listen to the dictation... (paste is disabled for fair practice)'}
+            placeholder={dictation.dictationLanguage === 'marathi' ? 'येथे टाइप करा... (पेस्ट अक्षम आहे)' : 'Start typing here as you listen to the dictation... (paste is disabled for fair practice)'}
             rows={14}
-            className={`w-full resize-none text-sm input-field leading-relaxed ${dictation.language === 'marathi' ? 'font-surekh text-lg' : 'font-mono'}`}
+            className={`w-full resize-none text-sm input-field leading-relaxed ${dictation.dictationLanguage === 'marathi' ? 'font-surekh text-lg' : 'font-mono'}`}
             disabled={timerExpired}
           />
 
