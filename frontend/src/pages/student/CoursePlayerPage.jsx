@@ -69,7 +69,7 @@ const CoursePlayerPage = () => {
           email: user?.email || '',
         },
         theme: {
-          color: '#6366f1',
+          color: '#8A2BE2',
         },
         modal: {
           ondismiss: () => setPaying(false),

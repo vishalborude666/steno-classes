@@ -52,8 +52,8 @@ const AdminDashboard = () => {
                 <CartesianGrid strokeDasharray="3 3" className="stroke-gray-200 dark:stroke-gray-700" />
                 <XAxis dataKey="_id" tick={{ fontSize: 11 }} />
                 <YAxis tick={{ fontSize: 11 }} />
-                <Tooltip contentStyle={{ background: '#1e3a8a', border: 'none', borderRadius: '10px', color: '#fff' }} />
-                <Bar dataKey="count" fill="#3b82f6" radius={[6, 6, 0, 0]} name="Sessions" />
+                <Tooltip contentStyle={{ background: '#411287', border: 'none', borderRadius: '10px', color: '#fff' }} />
+                <Bar dataKey="count" fill="#9B3DE8" radius={[6, 6, 0, 0]} name="Sessions" />
               </BarChart>
             </ResponsiveContainer>
           ) : (

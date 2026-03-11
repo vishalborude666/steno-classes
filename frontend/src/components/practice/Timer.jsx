@@ -26,7 +26,7 @@ const Timer = ({ durationSeconds = 300, onExpire, onTick, autoStart = false }) =
           <circle cx="60" cy="60" r="45" fill="none" stroke="currentColor"
             className="text-gray-200 dark:text-gray-700" strokeWidth="8" />
           <circle cx="60" cy="60" r="45" fill="none"
-            stroke={isUrgent ? '#ef4444' : '#3b82f6'}
+            stroke={isUrgent ? '#ef4444' : '#8A2BE2'}
             strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={circumference}

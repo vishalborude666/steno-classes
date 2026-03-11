@@ -246,7 +246,7 @@ const LandingPage = () => {
                 <span className="bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent">improve</span>
                 <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 200 12" fill="none">
                   <path d="M2 8 C50 2, 150 2, 198 8" stroke="url(#underline-grad)" strokeWidth="3" strokeLinecap="round" />
-                  <defs><linearGradient id="underline-grad" x1="0" y1="0" x2="200" y2="0"><stop stopColor="#2563eb" /><stop offset="1" stopColor="#7c3aed" /></linearGradient></defs>
+                  <defs><linearGradient id="underline-grad" x1="0" y1="0" x2="200" y2="0"><stop stopColor="#9B3DE8" /><stop offset="1" stopColor="#411287" /></linearGradient></defs>
                 </svg>
               </span>
             </h2>

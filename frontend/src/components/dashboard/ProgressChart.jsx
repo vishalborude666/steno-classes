@@ -26,7 +26,7 @@ const ProgressChart = ({ data = [] }) => {
         <YAxis tick={{ fontSize: 11 }} />
         <Tooltip
           contentStyle={{
-            background: '#1e3a8a',
+            background: '#411287',
             border: 'none',
             borderRadius: '12px',
             color: '#fff',
@@ -34,7 +34,7 @@ const ProgressChart = ({ data = [] }) => {
           }}
         />
         <Legend />
-        <Line type="monotone" dataKey="WPM" stroke="#3b82f6" strokeWidth={2.5} dot={{ r: 4 }} activeDot={{ r: 6 }} />
+        <Line type="monotone" dataKey="WPM" stroke="#9B3DE8" strokeWidth={2.5} dot={{ r: 4 }} activeDot={{ r: 6 }} />
         <Line type="monotone" dataKey="Accuracy" stroke="#10b981" strokeWidth={2.5} dot={{ r: 4 }} />
       </LineChart>
     </ResponsiveContainer>
