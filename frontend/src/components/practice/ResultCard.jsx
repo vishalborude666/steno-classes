@@ -59,8 +59,10 @@ const WordSpan = ({ item }) => {
   return <span className={cls}>{item.word}</span>
 }
 
-const ResultCard = ({ result, dictationId, onRetry, transcript, typedText }) => {
+const ResultCard = ({ result, dictationId, onRetry, transcript, typedText, language }) => {
   const { wpm, accuracy, timeTaken, mistakeCount } = result
+  const isMarathi = language === 'marathi'
+  const fontClass = isMarathi ? 'font-surekh text-base' : 'font-mono text-sm'
 
   const { refWords, typedWords, errors } = useMemo(
     () => buildWordDiff(transcript, typedText),
@@ -113,7 +115,7 @@ const ResultCard = ({ result, dictationId, onRetry, transcript, typedText }) => 
         {/* Actions */}
         <div className="flex gap-3">
           <button onClick={onRetry} className="btn-secondary flex-1">Try Again</button>
-          <Link to="/practice" className="btn-primary flex-1 text-center">Browse Dictations</Link>
+          <Link to={isMarathi ? '/marathi-practice' : '/practice'} className="btn-primary flex-1 text-center">Browse Dictations</Link>
         </div>
       </div>
 
@@ -129,7 +131,7 @@ const ResultCard = ({ result, dictationId, onRetry, transcript, typedText }) => 
                 <span className="text-xs text-gray-400">{refWords.length} words</span>
               </div>
               <div
-                className="font-mono text-sm leading-relaxed p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 overflow-y-auto whitespace-pre-wrap break-words"
+                className={`${fontClass} leading-relaxed p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 overflow-y-auto whitespace-pre-wrap break-words`}
                 style={{ minHeight: '250px', maxHeight: '400px' }}
               >
                 {refWords.map((item, i) => (
@@ -148,7 +150,7 @@ const ResultCard = ({ result, dictationId, onRetry, transcript, typedText }) => 
                 <span className="text-xs text-gray-400">{typedWords.filter(w => w.type !== 'missing').length} words typed</span>
               </div>
               <div
-                className="font-mono text-sm leading-relaxed p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 overflow-y-auto whitespace-pre-wrap break-words"
+                className={`${fontClass} leading-relaxed p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 overflow-y-auto whitespace-pre-wrap break-words`}
                 style={{ minHeight: '250px', maxHeight: '400px' }}
               >
                 {typedWords.map((item, i) => (
@@ -203,12 +205,12 @@ const ResultCard = ({ result, dictationId, onRetry, transcript, typedText }) => 
                 {errors.map((err, i) => (
                   <tr key={i} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
                     <td className="px-3 py-2 text-gray-400 font-mono text-xs">{err.index}</td>
-                    <td className="px-3 py-2 font-mono">
+                    <td className={`px-3 py-2 ${isMarathi ? 'font-surekh' : 'font-mono'}`}>
                       <span className="text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 rounded px-1.5 py-0.5">
                         {err.expected}
                       </span>
                     </td>
-                    <td className="px-3 py-2 font-mono">
+                    <td className={`px-3 py-2 ${isMarathi ? 'font-surekh' : 'font-mono'}`}>
                       <span className="text-red-500 dark:text-red-400 bg-red-50 dark:bg-red-900/20 rounded px-1.5 py-0.5">
                         {err.typed}
                       </span>

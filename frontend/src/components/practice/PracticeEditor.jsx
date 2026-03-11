@@ -94,6 +94,7 @@ const PracticeEditor = ({ dictation }) => {
         onRetry={handleRetry}
         transcript={dictation.transcript}
         typedText={typedText}
+        language={dictation.language}
       />
     )
   }

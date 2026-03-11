@@ -27,11 +27,13 @@ const diffWords = (original, typed) => {
   })
 }
 
-const LiveDiffEditor = ({ transcript, typedText, onTextChange, disabled }) => {
+const LiveDiffEditor = ({ transcript, typedText, onTextChange, disabled, language }) => {
   const [showReference, setShowReference] = useState(true)
   const [sideBySide, setSideBySide] = useState(true)
   const referenceRef = useRef(null)
   const textareaRef = useRef(null)
+  const isMarathi = language === 'marathi'
+  const fontClass = isMarathi ? 'font-surekh text-base' : 'font-mono text-sm'
 
   const wordDiff = useMemo(() => {
     if (!transcript) return []
@@ -106,7 +108,7 @@ const LiveDiffEditor = ({ transcript, typedText, onTextChange, disabled }) => {
             </div>
             <div
               ref={referenceRef}
-              className="flex-1 font-mono text-sm leading-relaxed p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 overflow-y-auto whitespace-pre-wrap break-words"
+              className={`flex-1 ${fontClass} leading-relaxed p-4 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 overflow-y-auto whitespace-pre-wrap break-words`}
               style={{ minHeight: '320px', maxHeight: '450px' }}
             >
               {wordDiff.map((item, i) => (
@@ -151,8 +153,8 @@ const LiveDiffEditor = ({ transcript, typedText, onTextChange, disabled }) => {
             onChange={onTextChange}
             onPaste={(e) => e.preventDefault()}
             onScroll={handleTextareaScroll}
-            placeholder="Start typing here as you listen... errors will be highlighted in the reference text in real-time"
-            className="flex-1 resize-none font-mono text-sm input-field leading-relaxed"
+            placeholder={isMarathi ? 'येथे टाइप करा... चुका रिअल-टाइममध्ये हायलाइट होतील' : 'Start typing here as you listen... errors will be highlighted in the reference text in real-time'}
+            className={`flex-1 resize-none ${fontClass} input-field leading-relaxed`}
             style={{ minHeight: '320px', maxHeight: '450px' }}
             disabled={disabled}
           />

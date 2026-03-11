@@ -22,6 +22,7 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        surekh: ['Surekh', 'Mangal', 'Noto Sans Devanagari', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.8s ease-out both',
