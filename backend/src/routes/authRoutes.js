@@ -31,8 +31,7 @@ router.post(
   login
 );
 
-// Google OAuth login
-router.post('/google', authLimiter, googleLogin);
+const { register, login, getMe, updateProfile, changePassword, forgotPassword, resetPassword } = require('../controllers/authController');
 
 // Forgot password — request reset link
 router.post(

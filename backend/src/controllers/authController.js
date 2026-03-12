@@ -148,7 +148,7 @@ const resetPassword = async (req, res, next) => {
 
 const googleLogin = async (req, res, next) => {
   try {
-    const { credential } = req.body;
+module.exports = { register, login, getMe, updateProfile, changePassword, forgotPassword, resetPassword };
     if (!credential) return sendError(res, 400, 'Google credential is required');
 
     const ticket = await googleClient.verifyIdToken({

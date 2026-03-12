@@ -24,10 +24,6 @@ const userSchema = new mongoose.Schema(
       minlength: [6, 'Password must be at least 6 characters'],
       select: false,
     },
-    googleId: {
-      type: String,
-      default: null,
-    },
     role: {
       type: String,
       enum: Object.values(ROLES),

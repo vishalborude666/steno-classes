@@ -27,20 +27,16 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (window.google && googleBtnRef.current) {
-      window.google.accounts.id.initialize({
+    import { loginUser } from '../../features/auth/authSlice'
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
         callback: handleGoogleResponse,
       })
       window.google.accounts.id.renderButton(googleBtnRef.current, {
         theme: 'outline',
         size: 'large',
-        width: '100%',
         text: 'signin_with',
       })
     }
-  }, [handleGoogleResponse])
-
-  const onSubmit = (data) => dispatch(loginUser(data))
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-900 via-primary-800 to-primary-950 flex items-center justify-center p-4">
@@ -49,20 +45,6 @@ const LoginPage = () => {
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-white/10 backdrop-blur mb-4 overflow-hidden">
             <img src="/logo.png" alt="Lucent Shorthand Classes" className="h-14 w-14 object-contain" />
-          </div>
-          <h1 className="text-3xl font-bold text-white">Lucent Shorthand Classes</h1>
-          <p className="text-purple-200 mt-1">Stenography Practice Platform</p>
-        </div>
-
-        {/* Card */}
-        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Welcome back</h2>
-
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                Email address
-              </label>
               <div className="relative">
                 <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
