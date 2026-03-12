@@ -1,6 +1,6 @@
 const express = require('express');
 const { body } = require('express-validator');
-const { register, login, googleLogin, getMe, updateProfile, changePassword, forgotPassword, resetPassword } = require('../controllers/authController');
+const { register, login, getMe, updateProfile, changePassword, forgotPassword, resetPassword } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
 const { validate } = require('../middleware/validationMiddleware');
 const { authLimiter } = require('../middleware/rateLimitMiddleware');
@@ -31,7 +31,6 @@ router.post(
   login
 );
 
-const { register, login, getMe, updateProfile, changePassword, forgotPassword, resetPassword } = require('../controllers/authController');
 
 // Forgot password — request reset link
 router.post(
