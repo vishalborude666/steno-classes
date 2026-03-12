@@ -1,18 +1,22 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
-import { useState } from 'react'
-import { loginUser } from '../../features/auth/authSlice'
+import { loginUser, googleLogin } from '../../features/auth/authSlice'
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { loading, isAuthenticated, user } = useSelector((state) => state.auth)
+  const googleBtnRef = useRef(null)
 
   const { register, handleSubmit, formState: { errors } } = useForm()
+
+  const handleGoogleResponse = useCallback((response) => {
+    dispatch(googleLogin(response.credential))
+  }, [dispatch])
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -20,6 +24,21 @@ const LoginPage = () => {
       navigate(redirectMap[user.role] || '/dashboard')
     }
   }, [isAuthenticated, user, navigate])
+
+  useEffect(() => {
+    if (window.google && googleBtnRef.current) {
+      window.google.accounts.id.initialize({
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        callback: handleGoogleResponse,
+      })
+      window.google.accounts.id.renderButton(googleBtnRef.current, {
+        theme: 'outline',
+        size: 'large',
+        width: '100%',
+        text: 'signin_with',
+      })
+    }
+  }, [handleGoogleResponse])
 
   const onSubmit = (data) => dispatch(loginUser(data))
 
@@ -86,8 +105,21 @@ const LoginPage = () => {
             </button>
           </form>
 
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-5">
+            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
+            <span className="text-xs text-gray-400 uppercase">or</span>
+            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
+          </div>
+
+          {/* Google Sign-In */}
+          <div className="flex justify-center">
+            <div ref={googleBtnRef} />
+          </div>
+
           <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
-            Student accounts are created by your teacher.
+            Don't have an account?{' '}
+            <Link to="/register" className="text-primary-600 font-semibold hover:underline">Register</Link>
           </p>
         </div>
       </div>

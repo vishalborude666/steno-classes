@@ -10,6 +10,7 @@ import Loader from './components/common/Loader'
 // Pages - Public
 import LandingPage from './pages/public/LandingPage'
 import LoginPage from './pages/public/LoginPage'
+import RegisterPage from './pages/public/RegisterPage'
 import ForgotPasswordPage from './pages/public/ForgotPasswordPage'
 import ResetPasswordPage from './pages/public/ResetPasswordPage'
 import NotFoundPage from './pages/public/NotFoundPage'
@@ -61,6 +62,7 @@ function App() {
         {/* Public */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
 

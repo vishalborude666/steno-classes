@@ -1,8 +1,31 @@
 const crypto = require('crypto');
+const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
 const { generateToken } = require('../utils/jwtUtils');
 const { sendSuccess, sendError } = require('../utils/apiResponse');
 const sendEmail = require('../utils/sendEmail');
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+const register = async (req, res, next) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) return sendError(res, 400, 'Email already registered');
+
+    const user = await User.create({ name, email, password, role: 'student' });
+
+    const token = generateToken(user._id);
+
+    sendSuccess(res, 201, 'Registration successful', {
+      token,
+      user: { _id: user._id, name: user.name, email: user.email, role: user.role, avatar: user.avatar },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 const login = async (req, res, next) => {
   try {
@@ -10,6 +33,7 @@ const login = async (req, res, next) => {
 
     const user = await User.findOne({ email }).select('+password');
     if (!user) return sendError(res, 401, 'Invalid credentials');
+    if (!user.password) return sendError(res, 400, 'This account uses Google login. Please sign in with Google.');
     if (!user.isActive) return sendError(res, 403, 'Account is deactivated');
 
     const isMatch = await user.comparePassword(password);
@@ -122,4 +146,48 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
-module.exports = { login, getMe, updateProfile, changePassword, forgotPassword, resetPassword };
+const googleLogin = async (req, res, next) => {
+  try {
+    const { credential } = req.body;
+    if (!credential) return sendError(res, 400, 'Google credential is required');
+
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const { sub: googleId, email, name, picture } = payload;
+
+    let user = await User.findOne({ email });
+
+    if (user) {
+      // Link Google account if not already linked
+      if (!user.googleId) {
+        user.googleId = googleId;
+        if (picture && !user.avatar) user.avatar = picture;
+        await user.save({ validateBeforeSave: false });
+      }
+      if (!user.isActive) return sendError(res, 403, 'Account is deactivated');
+    } else {
+      // Create new student account
+      user = await User.create({
+        name,
+        email,
+        googleId,
+        avatar: picture || '',
+        role: 'student',
+      });
+    }
+
+    const token = generateToken(user._id);
+
+    sendSuccess(res, 200, 'Google login successful', {
+      token,
+      user: { _id: user._id, name: user.name, email: user.email, role: user.role, avatar: user.avatar },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { register, login, googleLogin, getMe, updateProfile, changePassword, forgotPassword, resetPassword };

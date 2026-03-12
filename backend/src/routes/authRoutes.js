@@ -1,13 +1,24 @@
 const express = require('express');
 const { body } = require('express-validator');
-const { login, getMe, updateProfile, changePassword, forgotPassword, resetPassword } = require('../controllers/authController');
+const { register, login, googleLogin, getMe, updateProfile, changePassword, forgotPassword, resetPassword } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
 const { validate } = require('../middleware/validationMiddleware');
 const { authLimiter } = require('../middleware/rateLimitMiddleware');
 
 const router = express.Router();
 
-// Public registration removed — only the teacher can create student accounts
+// Public registration — anyone can register as a student, teachers manage access
+router.post(
+  '/register',
+  authLimiter,
+  [
+    body('name').trim().notEmpty().withMessage('Name is required'),
+    body('email').isEmail().withMessage('Valid email required'),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+  ],
+  validate,
+  register
+);
 
 router.post(
   '/login',
@@ -19,6 +30,9 @@ router.post(
   validate,
   login
 );
+
+// Google OAuth login
+router.post('/google', authLimiter, googleLogin);
 
 // Forgot password — request reset link
 router.post(
