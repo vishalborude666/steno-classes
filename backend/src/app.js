@@ -19,10 +19,31 @@ const app = express();
 
 // Security
 app.use(helmet());
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.CLIENT_URL_2,
+  'https://lucentsteno.com',
+  'https://www.lucentsteno.com',
+  'http://localhost:5173',
+].filter(Boolean);
+
 app.use(cors({
-  origin: [process.env.CLIENT_URL, 'http://localhost:5173'].filter(Boolean),
+  origin: function (origin, callback) {
+    // allow non-browser or same-origin requests (no origin)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+    return callback(new Error('CORS policy: Origin not allowed'));
+  },
   credentials: true,
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  optionsSuccessStatus: 200,
 }));
+
+// Respond to preflight requests for all routes
+app.options('*', cors({ origin: allowedOrigins, credentials: true }));
 
 // Performance
 app.use(compression());
