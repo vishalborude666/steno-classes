@@ -2,9 +2,9 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const User = require('./src/models/User');
 
-const TEACHER_EMAIL = 'vishalborude666@gmail.com';
-const TEACHER_PASSWORD = 'Teacher@123';
-const TEACHER_NAME = 'Admin Teacher';
+const TEACHER_EMAIL = 'rohanselukar143@gmail.com';
+const TEACHER_PASSWORD = 'Lucent@999297';
+const TEACHER_NAME = 'Shinde Madam';
 
 async function seed() {
   try {
