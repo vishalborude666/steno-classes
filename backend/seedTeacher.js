@@ -17,17 +17,20 @@ async function seed() {
       process.exit(0);
     }
 
-    const teacher = await User.create({
-      name: TEACHER_NAME,
-      email: TEACHER_EMAIL,
-      password: TEACHER_PASSWORD,
-      role: 'teacher',
-    });
+ const updated = await User.findOneAndUpdate(
+  { email: 'rohanselukar143@gmail.com' },
+  {
+    password: hashedPassword,
+    name: 'Shinde Madam',
+    role: 'teacher'
+  },
+  { new: true }
+);
 
     console.log('Teacher account created successfully!');
-    console.log('  Email:', teacher.email);
+    console.log('  Email:', updated.email);
     console.log('  Password:', TEACHER_PASSWORD);
-    console.log('  Role:', teacher.role);
+    console.log('  Role:', updated.role);
     process.exit(0);
   } catch (err) {
     console.error('Error:', err.message);
