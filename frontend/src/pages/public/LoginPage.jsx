@@ -27,7 +27,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (window.google && googleBtnRef.current) {
-    import { loginUser } from '../../features/auth/authSlice'
+      window.google.accounts.id.initialize({
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
         callback: handleGoogleResponse,
       })
@@ -37,14 +37,21 @@ const LoginPage = () => {
         text: 'signin_with',
       })
     }
+  }, [handleGoogleResponse])
+
+  const onSubmit = (data) => dispatch(loginUser(data))
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-900 via-primary-800 to-primary-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-white/10 backdrop-blur mb-4 overflow-hidden">
+            <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-white/10 backdrop-blur mb-4 overflow-hidden">
             <img src="/logo.png" alt="Lucent Shorthand Classes" className="h-14 w-14 object-contain" />
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="relative">
                 <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const User = require('./src/models/User');
+const bcrypt = require('bcryptjs');
 
 const TEACHER_EMAIL = 'rohanselukar143@gmail.com';
 const TEACHER_PASSWORD = 'Lucent@999297';
@@ -17,10 +18,13 @@ async function seed() {
       process.exit(0);
     }
 
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(TEACHER_PASSWORD, 10);
+
     const teacher = await User.create({
       name: TEACHER_NAME,
       email: TEACHER_EMAIL,
-      password: TEACHER_PASSWORD,
+      password: hashedPassword,
       role: 'teacher',
     });
 

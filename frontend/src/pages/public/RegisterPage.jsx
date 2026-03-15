@@ -15,13 +15,14 @@ const RegisterPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const handleGoogleResponse = useCallback((response) => {
-  import { registerUser } from '../../features/auth/authSlice'
+    dispatch(googleLogin(response.credential))
   }, [dispatch])
 
   useEffect(() => {
     if (isAuthenticated && user) {
       const redirectMap = { admin: '/admin', teacher: '/teacher', student: '/dashboard' }
       navigate(redirectMap[user.role] || '/dashboard')
+    }
   }, [isAuthenticated, user, navigate])
 
   useEffect(() => {
