@@ -6,6 +6,7 @@ const {
   updateDictation,
   deleteDictation,
   getDailyChallenge,
+  setDailyChallenge,
 } = require('../controllers/dictationController');
 const { protect } = require('../middleware/authMiddleware');
 const { isRole } = require('../middleware/roleMiddleware');
@@ -16,6 +17,7 @@ const router = express.Router();
 router.use(protect);
 
 router.get('/daily-challenge', getDailyChallenge);
+router.post('/daily-challenge', isRole('teacher', 'admin'), setDailyChallenge);
 router.get('/', getDictations);
 router.get('/:id', getDictation);
 router.post('/', isRole('teacher', 'admin'), uploadAudio, createDictation);

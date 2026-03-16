@@ -1,4 +1,5 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 const mongoose = require('mongoose');
 const User = require('./src/models/User');
 const bcrypt = require('bcryptjs');
@@ -11,25 +12,26 @@ async function updateTeacher() {
     // Hash the new password
     const hashedPassword = await bcrypt.hash('Lucent@999297', 10);
 
-    // Update the teacher's email, password, and name
+    // Upsert the teacher by email (create if not exists)
     const updated = await User.findOneAndUpdate(
-      { role: 'teacher' },
+      { email: 'rohanselukar143@gmail.com' },
       {
-        email: 'rohanselukar143@gmail.com',
-        password: hashedPassword,
-        name: 'Shinde Madam',
+        $set: {
+          name: 'Shinde Madam',
+          password: hashedPassword,
+          role: 'teacher',
+          isActive: true,
+        },
       },
-      { new: true }
+      { upsert: true, new: true, setDefaultsOnInsert: true }
     );
 
-    if (updated) {
-      console.log('Teacher updated:', updated);
-    } else {
-      console.log('No teacher found to update.');
-    }
+    console.log('Teacher upserted:', { email: updated.email, name: updated.name, role: updated.role, _id: updated._id });
+    await mongoose.disconnect();
     process.exit(0);
   } catch (err) {
-    console.error('Error:', err.message);
+    console.error('Error:', err);
+    try { await mongoose.disconnect(); } catch(e) {}
     process.exit(1);
   }
 }

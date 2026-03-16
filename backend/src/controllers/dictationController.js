@@ -2,6 +2,7 @@ const Dictation = require('../models/Dictation');
 const cloudinary = require('../config/cloudinary');
 const { getDailyIndex } = require('../utils/dailyChallenge');
 const { sendSuccess, sendError } = require('../utils/apiResponse');
+const DailyChallenge = require('../models/DailyChallenge');
 
 const getDictations = async (req, res, next) => {
   try {
@@ -114,6 +115,17 @@ const deleteDictation = async (req, res, next) => {
 
 const getDailyChallenge = async (req, res, next) => {
   try {
+    // Prefer an explicitly set daily challenge (by teacher/admin)
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+
+    const stored = await DailyChallenge.findOne({ date: { $gte: startOfDay, $lt: endOfDay } }).populate({ path: 'dictation', populate: { path: 'uploadedBy', select: 'name' } });
+    if (stored && stored.dictation && stored.dictation.isActive) {
+      return sendSuccess(res, 200, 'Daily challenge fetched', { dictation: stored.dictation });
+    }
+
+    // Fallback to deterministic daily selection
     const dictations = await Dictation.find({ isActive: true }).select('_id title difficulty');
     if (dictations.length === 0) return sendError(res, 404, 'No dictations available');
 
@@ -126,4 +138,28 @@ const getDailyChallenge = async (req, res, next) => {
   }
 };
 
-module.exports = { getDictations, getDictation, createDictation, updateDictation, deleteDictation, getDailyChallenge };
+const setDailyChallenge = async (req, res, next) => {
+  try {
+    const { dictationId } = req.body;
+    if (!dictationId) return sendError(res, 400, 'dictationId is required');
+
+    const dictation = await Dictation.findById(dictationId);
+    if (!dictation || !dictation.isActive) return sendError(res, 404, 'Dictation not found or not active');
+
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    // Upsert today's daily challenge
+    const updated = await DailyChallenge.findOneAndUpdate(
+      { date: startOfDay },
+      { date: startOfDay, dictation: dictation._id, uploadedBy: req.user._id },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    ).populate({ path: 'dictation', populate: { path: 'uploadedBy', select: 'name' } });
+
+    sendSuccess(res, 200, 'Daily challenge set for today', { daily: updated });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getDictations, getDictation, createDictation, updateDictation, deleteDictation, getDailyChallenge, setDailyChallenge };
