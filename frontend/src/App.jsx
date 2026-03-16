@@ -31,6 +31,7 @@ import MarathiPracticePage from './pages/student/MarathiPracticePage'
 // Pages - Teacher
 import TeacherDashboard from './pages/teacher/TeacherDashboard'
 import UploadDictationPage from './pages/teacher/UploadDictationPage'
+import DailyChallengeManagePage from './pages/teacher/DailyChallengeManagePage'
 import ManageContentPage from './pages/teacher/ManageContentPage'
 import ManageStudentsPage from './pages/teacher/ManageStudentsPage'
 import StudentReportsPage from './pages/teacher/StudentReportsPage'
@@ -82,6 +83,7 @@ function App() {
         {/* Teacher routes */}
         <Route path="/teacher" element={<ProtectedRoute><RoleRoute allowedRoles={['teacher', 'admin']}><TeacherDashboard /></RoleRoute></ProtectedRoute>} />
         <Route path="/teacher/upload" element={<ProtectedRoute><RoleRoute allowedRoles={['teacher', 'admin']}><UploadDictationPage /></RoleRoute></ProtectedRoute>} />
+        <Route path="/teacher/daily-challenge" element={<ProtectedRoute><RoleRoute allowedRoles={['teacher', 'admin']}><DailyChallengeManagePage /></RoleRoute></ProtectedRoute>} />
         <Route path="/teacher/content" element={<ProtectedRoute><RoleRoute allowedRoles={['teacher', 'admin']}><ManageContentPage /></RoleRoute></ProtectedRoute>} />
         <Route path="/teacher/students" element={<ProtectedRoute><RoleRoute allowedRoles={['teacher', 'admin']}><ManageStudentsPage /></RoleRoute></ProtectedRoute>} />
         <Route path="/teacher/reports" element={<ProtectedRoute><RoleRoute allowedRoles={['teacher', 'admin']}><StudentReportsPage /></RoleRoute></ProtectedRoute>} />

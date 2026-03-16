@@ -29,6 +29,16 @@ export const fetchDailyChallenge = createAsyncThunk('dictation/daily', async (_,
   }
 })
 
+export const setDailyChallenge = createAsyncThunk('dictation/setDaily', async (dictationId, { rejectWithValue }) => {
+  try {
+    const { data } = await api.post('/dictations/daily-challenge', { dictationId })
+    toast.success('Daily challenge set for today')
+    return data.data.daily
+  } catch (error) {
+    return rejectWithValue(error.response?.data?.message || 'Failed to set daily challenge')
+  }
+})
+
 export const createDictation = createAsyncThunk('dictation/create', async (formData, { rejectWithValue }) => {
   try {
     const { data } = await api.post('/dictations', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
@@ -93,6 +103,9 @@ const dictationSlice = createSlice({
       })
       .addCase(fetchDailyChallenge.fulfilled, (state, action) => {
         state.dailyChallenge = action.payload
+      })
+      .addCase(setDailyChallenge.fulfilled, (state, action) => {
+        state.dailyChallenge = action.payload.dictation || action.payload
       })
       .addCase(createDictation.fulfilled, (state, action) => {
         state.dictations.unshift(action.payload)

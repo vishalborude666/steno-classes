@@ -11,6 +11,7 @@ const TeacherDashboard = () => {
 
   const quickLinks = [
     { to: '/teacher/upload', icon: Upload, label: 'Upload Dictation', desc: 'Add new audio or YouTube content', color: 'blue' },
+    { to: '/teacher/daily-challenge', icon: Download, label: 'Daily Challenge', desc: "Set today's challenge", color: 'teal' },
     { to: '/teacher/content', icon: FileText, label: 'Manage Content', desc: 'View and edit your uploads', color: 'green' },
     { to: '/teacher/students', icon: UserPlus, label: 'Manage Students', desc: 'Create and manage student accounts', color: 'purple' },
     { to: '/teacher/reports', icon: Users, label: 'Student Reports', desc: 'Track student performance', color: 'amber' },
