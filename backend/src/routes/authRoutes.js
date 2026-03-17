@@ -31,6 +31,12 @@ router.post(
   login
 );
 
+// Google Sign-In
+router.post('/google', authLimiter, (req, res, next) => {
+  // body validation not required here because Google sends a credential token
+  return require('../controllers/authController').googleLogin(req, res, next)
+})
+
 
 // Forgot password — request reset link
 router.post(

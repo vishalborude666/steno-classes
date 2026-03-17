@@ -63,6 +63,10 @@ const dictationSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    durationSeconds: {
+      type: Number,
+      default: 300, // default 5 minutes
+    },
   },
   { timestamps: true }
 );

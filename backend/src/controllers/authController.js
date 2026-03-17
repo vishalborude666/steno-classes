@@ -148,13 +148,13 @@ const resetPassword = async (req, res, next) => {
 
 const googleLogin = async (req, res, next) => {
   try {
-module.exports = { register, login, getMe, updateProfile, changePassword, forgotPassword, resetPassword };
-    if (!credential) return sendError(res, 400, 'Google credential is required');
+    const { credential } = req.body
+    if (!credential) return sendError(res, 400, 'Google credential is required')
 
     const ticket = await googleClient.verifyIdToken({
       idToken: credential,
       audience: process.env.GOOGLE_CLIENT_ID,
-    });
+    })
     const payload = ticket.getPayload();
     const { sub: googleId, email, name, picture } = payload;
 

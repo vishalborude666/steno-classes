@@ -51,6 +51,8 @@ const LoginPage = () => {
             </div>
           </div>
 
+        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Sign in to your account</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="relative">
                 <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -62,7 +64,7 @@ const LoginPage = () => {
                 />
               </div>
               {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
-            </div>
+            
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">

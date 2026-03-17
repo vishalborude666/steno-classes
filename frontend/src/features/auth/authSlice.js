@@ -32,6 +32,17 @@ export const loginUser = createAsyncThunk('auth/login', async (credentials, { re
   }
 })
 
+export const googleLogin = createAsyncThunk('auth/googleLogin', async (credential, { rejectWithValue }) => {
+  try {
+    const { data } = await api.post('/auth/google', { credential })
+    localStorage.setItem('token', data.data.token)
+    localStorage.setItem('user', JSON.stringify(data.data.user))
+    return data.data
+  } catch (error) {
+    return rejectWithValue(error.response?.data?.message || 'Google login failed')
+  }
+})
+
 
 export const forgotPassword = createAsyncThunk('auth/forgotPassword', async ({ email }, { rejectWithValue }) => {
   try {
@@ -105,6 +116,12 @@ const authSlice = createSlice({
         toast.success('Welcome back!')
       })
       .addCase(loginUser.rejected, rejected)
+        .addCase(googleLogin.pending, pending)
+        .addCase(googleLogin.fulfilled, (state, action) => {
+          fulfilled(state, action)
+          toast.success('Welcome back!')
+        })
+        .addCase(googleLogin.rejected, rejected)
       .addCase(forgotPassword.pending, pending)
       .addCase(forgotPassword.fulfilled, (state) => {
         state.loading = false
@@ -125,4 +142,4 @@ const authSlice = createSlice({
 })
 
 export const { logout, clearError } = authSlice.actions
-export default authSlice.reducer
+export default authSlice.reducer ;

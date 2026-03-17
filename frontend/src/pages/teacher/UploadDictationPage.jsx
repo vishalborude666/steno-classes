@@ -14,7 +14,7 @@ const UploadDictationPage = () => {
   const [activeTab, setActiveTab] = useState(0)
   const [audioFile, setAudioFile] = useState(null)
   const [form, setForm] = useState({
-    title: '', description: '', transcript: '', difficulty: 'medium', language: 'english',
+    title: '', description: '', transcript: '', difficulty: 'medium', language: 'english', duration: 5,
   })
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -35,12 +35,14 @@ const UploadDictationPage = () => {
     if (!form.title.trim()) return toast.error('Title is required')
 
     const formData = new FormData()
-    Object.entries(form).forEach(([k, v]) => formData.append(k, v))
+    // send duration in seconds to backend
+    const formCopy = { ...form, durationSeconds: form.duration ? String(parseInt(form.duration) * 60) : '' }
+    Object.entries(formCopy).forEach(([k, v]) => formData.append(k, v))
     if (audioFile) formData.append('audio', audioFile)
 
     const res = await dispatch(createDictation(formData))
     if (createDictation.fulfilled.match(res)) {
-      setForm({ title: '', description: '', transcript: '', difficulty: 'medium', language: 'english' })
+      setForm({ title: '', description: '', transcript: '', difficulty: 'medium', language: 'english', duration: 5 })
       setAudioFile(null)
     }
   }
@@ -84,6 +86,17 @@ const UploadDictationPage = () => {
                 <option value="english">English</option>
                 <option value="marathi">Marathi (मराठी)</option>
               </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Duration (minutes)</label>
+              <input
+                name="duration"
+                type="number"
+                min={1}
+                value={form.duration}
+                onChange={handleChange}
+                className="input-field w-40"
+              />
             </div>
           </div>
 

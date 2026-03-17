@@ -7,7 +7,7 @@ import ResultCard from './ResultCard'
 import { submitPractice } from '../../features/practice/practiceSlice'
 import { calculateWPM, calculateAccuracy } from '../../utils/wpmCalculator'
 
-const DURATION = 300 // 5 min default
+// Use dictation-specific duration when provided (in seconds), fallback to 5 minutes
 
 const PracticeEditor = ({ dictation }) => {
   const dispatch = useDispatch()
@@ -120,7 +120,7 @@ const PracticeEditor = ({ dictation }) => {
         <div className="card p-3 flex flex-col items-center gap-1">
           <p className="text-xs font-semibold text-gray-700 dark:text-gray-300">Timer</p>
           <Timer
-            durationSeconds={DURATION}
+            durationSeconds={dictation.durationSeconds || 300}
             onExpire={handleExpire}
             onTick={setElapsed}
             autoStart={timerStarted}

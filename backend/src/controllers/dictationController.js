@@ -45,7 +45,7 @@ const getDictation = async (req, res, next) => {
 
 const createDictation = async (req, res, next) => {
   try {
-    const { title, description, transcript, youtubeLink, difficulty, language } = req.body;
+    const { title, description, transcript, youtubeLink, difficulty, language, durationSeconds } = req.body;
 
     const dictationData = {
       title,
@@ -54,6 +54,7 @@ const createDictation = async (req, res, next) => {
       youtubeLink,
       difficulty,
       dictationLanguage: language || 'english',
+      durationSeconds: parseInt(durationSeconds) || 300,
       uploadedBy: req.user._id,
     };
 
@@ -79,8 +80,8 @@ const updateDictation = async (req, res, next) => {
       return sendError(res, 403, 'Not authorized to edit this dictation');
     }
 
-    const { title, description, transcript, youtubeLink, difficulty, language } = req.body;
-    const updates = { title, description, transcript, youtubeLink, difficulty, dictationLanguage: language };
+    const { title, description, transcript, youtubeLink, difficulty, language, durationSeconds } = req.body;
+    const updates = { title, description, transcript, youtubeLink, difficulty, dictationLanguage: language, durationSeconds: parseInt(durationSeconds) };
 
     if (req.file) {
       // Delete old audio from cloudinary if exists
