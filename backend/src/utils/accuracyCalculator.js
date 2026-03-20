@@ -9,20 +9,49 @@ const calculateAccuracy = (original, typed) => {
     return { accuracy: 100, mistakeCount: 0 };
   }
 
-  const originalWords = original.trim().toLowerCase().split(/\s+/);
-  const typedWords = typed.trim().toLowerCase().split(/\s+/);
+  const originalWords = original
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean);
 
-  let correct = 0;
+  const typedWords = (typed || '')
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean);
+
   const totalWords = originalWords.length;
 
-  originalWords.forEach((word, i) => {
-    if (typedWords[i] === word) {
-      correct++;
-    }
-  });
+  // Use Longest Common Subsequence (LCS) at word level to allow for
+  // single missing/extra words without shifting all subsequent matches.
+  const m = totalWords;
+  const n = typedWords.length;
 
-  const accuracy = Math.round((correct / totalWords) * 100);
+  if (m === 0) {
+    return { accuracy: 100, mistakeCount: 0 };
+  }
+
+  // DP table (only keep two rows)
+  const prev = new Array(n + 1).fill(0);
+  const curr = new Array(n + 1).fill(0);
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (originalWords[i - 1] === typedWords[j - 1]) {
+        curr[j] = prev[j - 1] + 1;
+      } else {
+        curr[j] = Math.max(prev[j], curr[j - 1]);
+      }
+    }
+    // copy curr to prev, and reset curr
+    for (let j = 0; j <= n; j++) prev[j] = curr[j];
+    curr.fill(0);
+  }
+
+  const correct = prev[n];
   const mistakeCount = totalWords - correct;
+  const accuracy = Math.round((correct / totalWords) * 100);
 
   return { accuracy, mistakeCount };
 };
