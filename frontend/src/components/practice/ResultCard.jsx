@@ -7,41 +7,34 @@ import { formatTime, getAccuracyColor, getWPMColor } from '../../utils/formatter
  * Word-level diff for both panels
  * Returns { refWords, typedWords, errors }
  */
+import { diffTexts } from '../../utils/wpmCalculator'
+
 const buildWordDiff = (original, typed) => {
   if (!original) return { refWords: [], typedWords: [], errors: [] }
-  const origWords = original.trim().split(/\s+/)
-  const tWords = (typed || '').trim().split(/\s+/).filter(Boolean)
+  const { result, typedExtras } = diffTexts(original, typed || '')
   const errors = []
 
-  const refWords = origWords.map((word, i) => {
-    const tw = tWords[i]
-    if (tw === undefined) {
-      errors.push({ index: i + 1, expected: word, typed: '(missing)' })
-      return { word, type: 'missing' }
+  const refWords = result.map((item, i) => {
+    const word = item.char.trim()
+    if (item.type === 'correct') return { word, type: 'correct' }
+    if (item.type === 'wrong') {
+      errors.push({ index: i + 1, expected: word, typed: item.typed || '(mistyped)' })
+      return { word, type: 'wrong' }
     }
-    if (tw.toLowerCase() === word.toLowerCase()) {
-      return { word, type: 'correct' }
-    }
-    errors.push({ index: i + 1, expected: word, typed: tw })
-    return { word, type: 'wrong' }
+    // missing
+    errors.push({ index: i + 1, expected: word, typed: '(missing)' })
+    return { word, type: 'missing' }
   })
 
-  const typedDiffWords = tWords.map((word, i) => {
-    if (i >= origWords.length) {
-      errors.push({ index: origWords.length + (i - origWords.length) + 1, expected: '—', typed: word })
-      return { word, type: 'extra' }
-    }
-    if (word.toLowerCase() === origWords[i].toLowerCase()) {
-      return { word, type: 'correct' }
-    }
-    return { word, type: 'wrong' }
+  const typedDiffWords = result.map((item) => {
+    if (item.type === 'correct') return { word: item.char.trim(), type: 'correct' }
+    if (item.type === 'wrong') return { word: (item.typed || '___'), type: 'wrong' }
+    return { word: '___', type: 'missing' }
   })
 
-  // Add placeholders for missing words in typed panel
-  if (tWords.length < origWords.length) {
-    for (let i = tWords.length; i < origWords.length; i++) {
-      typedDiffWords.push({ word: '___', type: 'missing' })
-    }
+  // Append any extra typed words
+  if (typedExtras && typedExtras.length) {
+    typedExtras.forEach((e) => typedDiffWords.push({ word: e.word, type: 'extra' }))
   }
 
   return { refWords, typedWords: typedDiffWords, errors }

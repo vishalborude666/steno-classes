@@ -2,7 +2,7 @@ import { diffTexts } from '../../utils/wpmCalculator'
 
 const DiffHighlighter = ({ original, typed, language }) => {
   if (!original) return null
-  const diff = diffTexts(original, typed || '')
+  const { result: diff } = diffTexts(original, typed || '')
   const fontClass = language === 'marathi' ? 'font-surekh text-base' : 'font-mono text-sm'
 
   return (
