@@ -14,23 +14,24 @@ const buildWordDiff = (original, typed) => {
   const { result, typedExtras } = diffTexts(original, typed || '')
   const errors = []
 
-  const refWords = result.map((item, i) => {
-    const word = item.char.trim()
-    if (item.type === 'correct') return { word, type: 'correct' }
-    if (item.type === 'wrong') {
-      errors.push({ index: i + 1, expected: word, typed: item.typed || '(mistyped)' })
-      return { word, type: 'wrong' }
-    }
-    // missing
-    errors.push({ index: i + 1, expected: word, typed: '(missing)' })
-    return { word, type: 'missing' }
-  })
+    const refWords = result.map((item, i) => {
+      // keep original token including trailing whitespace so rendering preserves spacing
+      const word = item.char
+      if (item.type === 'correct') return { word, type: 'correct' }
+      if (item.type === 'wrong') {
+        errors.push({ index: i + 1, expected: word.trim(), typed: item.typed || '(mistyped)' })
+        return { word, type: 'wrong' }
+      }
+      // missing
+      errors.push({ index: i + 1, expected: word.trim(), typed: '(missing)' })
+      return { word, type: 'missing' }
+    })
 
-  const typedDiffWords = result.map((item) => {
-    if (item.type === 'correct') return { word: item.char.trim(), type: 'correct' }
-    if (item.type === 'wrong') return { word: (item.typed || '___'), type: 'wrong' }
-    return { word: '___', type: 'missing' }
-  })
+    const typedDiffWords = result.map((item) => {
+      if (item.type === 'correct') return { word: item.char, type: 'correct' }
+      if (item.type === 'wrong') return { word: (item.typed || '___'), type: 'wrong' }
+      return { word: '___', type: 'missing' }
+    })
 
   // Append any extra typed words
   if (typedExtras && typedExtras.length) {
@@ -130,7 +131,6 @@ const ResultCard = ({ result, dictationId, onRetry, transcript, typedText, langu
                 {refWords.map((item, i) => (
                   <span key={i}>
                     <WordSpan item={item} />
-                    {i < refWords.length - 1 && ' '}
                   </span>
                 ))}
               </div>
@@ -149,7 +149,6 @@ const ResultCard = ({ result, dictationId, onRetry, transcript, typedText, langu
                 {typedWords.map((item, i) => (
                   <span key={i}>
                     <WordSpan item={item} />
-                    {i < typedWords.length - 1 && ' '}
                   </span>
                 ))}
               </div>

@@ -6,21 +6,28 @@ import { Eye, EyeOff, Columns, AlignLeft } from 'lucide-react'
  * Returns array of { word, type: 'correct' | 'wrong' | 'pending' }
  */
 const diffWords = (original, typed) => {
-  const origWords = original.trim().split(/\s+/)
-  const typedWords = typed.trim().split(/\s+/)
-  return origWords.map((word, i) => {
+  // Tokenize original preserving trailing whitespace so rendering keeps exact spacing (spaces, tabs)
+  const tokens = original.match(/\S+\s*/g) || []
+  const origKeys = tokens.map((t) => t.trim())
+  const typedWords = (typed || '').trim().split(/\s+/).filter(Boolean)
+
+  return tokens.map((token, i) => {
+    const word = token // includes trailing space if present
+    const key = origKeys[i] || ''
+
     if (i >= typedWords.length || (i === typedWords.length - 1 && typedWords[i] === '')) {
       return { word, type: 'pending' }
     }
+
     // If the student is still typing the current last word, mark as pending
     if (i === typedWords.length - 1 && !typed.endsWith(' ') && !typed.endsWith('\n')) {
-      // Partial match — check if it's a prefix
-      if (word.toLowerCase().startsWith(typedWords[i].toLowerCase())) {
+      if (key.toLowerCase().startsWith(typedWords[i].toLowerCase())) {
         return { word, type: 'pending' }
       }
       return { word, type: 'wrong', typed: typedWords[i] }
     }
-    if (typedWords[i].toLowerCase() === word.toLowerCase()) {
+
+    if (typedWords[i].toLowerCase() === key.toLowerCase()) {
       return { word, type: 'correct' }
     }
     return { word, type: 'wrong', typed: typedWords[i] }
@@ -130,7 +137,7 @@ const LiveDiffEditor = ({ transcript, typedText, onTextChange, disabled, languag
                       You typed: <strong>{item.typed}</strong>
                     </span>
                   )}
-                  {i < wordDiff.length - 1 && ' '}
+                  {/* spacing preserved inside token (token includes trailing whitespace) */}
                 </span>
               ))}
             </div>
