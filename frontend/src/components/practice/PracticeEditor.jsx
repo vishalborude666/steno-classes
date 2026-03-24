@@ -4,6 +4,7 @@ import { ClipboardPaste, Send } from 'lucide-react'
 import AudioPlayer from './AudioPlayer'
 import Timer from './Timer'
 import ResultCard from './ResultCard'
+import LiveDiffEditor from './LiveDiffEditor'
 import { submitPractice } from '../../features/practice/practiceSlice'
 import { calculateWPM, calculateAccuracy } from '../../utils/wpmCalculator'
 
@@ -65,6 +66,11 @@ const PracticeEditor = ({ dictation }) => {
       startTimeRef.current = Date.now()
     }
   }
+
+  // Live metrics
+  const liveElapsed = elapsed || (timerStarted && startTimeRef.current ? Math.round((Date.now() - startTimeRef.current) / 1000) : 0)
+  const liveWPM = calculateWPM(typedText, Math.max(1, liveElapsed))
+  const { accuracy: liveAccuracy } = calculateAccuracy(dictation.transcript || '', typedText)
 
   const handleRetry = () => {
     setTypedText('')
@@ -137,15 +143,26 @@ const PracticeEditor = ({ dictation }) => {
               {typedText.trim().split(/\s+/).filter(Boolean).length} words
             </span>
           </div>
-          <textarea
-            ref={textareaRef}
-            value={typedText}
-            onChange={handleTextChange}
-            onPaste={handlePaste}
-            placeholder={dictation.dictationLanguage === 'marathi' ? 'येथे टाइप करा... (पेस्ट अक्षम आहे)' : 'Start typing here as you listen to the dictation... (paste is disabled for fair practice)'}
-            rows={14}
-            className={`w-full resize-none text-sm input-field leading-relaxed ${dictation.dictationLanguage === 'marathi' ? 'font-surekh text-lg' : 'font-mono'}`}
+          <div className="mb-3 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="px-3 py-1 rounded-lg text-sm font-semibold text-violet-700 dark:text-violet-300 bg-violet-100 dark:bg-violet-900/30">
+                {liveWPM} WPM
+              </div>
+              <div className="px-3 py-1 rounded-lg text-sm font-semibold text-violet-700 dark:text-violet-300 bg-violet-100 dark:bg-violet-900/30">
+                {liveAccuracy}% acc
+              </div>
+            </div>
+            <div className="text-xs text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+              {typedText.trim().split(/\s+/).filter(Boolean).length} words
+            </div>
+          </div>
+
+          <LiveDiffEditor
+            transcript={dictation.transcript}
+            typedText={typedText}
+            onTextChange={(e) => handleTextChange(e)}
             disabled={timerExpired}
+            language={dictation.dictationLanguage}
           />
 
           <div className="flex items-center justify-between mt-3">

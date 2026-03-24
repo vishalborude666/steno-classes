@@ -123,7 +123,7 @@ const LiveDiffEditor = ({ transcript, typedText, onTextChange, disabled, languag
                   <span
                     className={`${
                       item.type === 'correct'
-                        ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 rounded px-0.5'
+                        ? 'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-900/20 rounded px-0.5'
                         : item.type === 'wrong'
                         ? 'text-red-500 dark:text-red-400 bg-red-50 dark:bg-red-900/30 rounded px-0.5 underline decoration-wavy decoration-red-400'
                         : 'text-gray-400 dark:text-gray-500'
@@ -172,7 +172,7 @@ const LiveDiffEditor = ({ transcript, typedText, onTextChange, disabled, languag
       <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
         <div className="h-full flex">
           <div
-            className="bg-emerald-500 transition-all duration-300"
+            className="bg-violet-500 transition-all duration-300"
             style={{ width: `${stats.total > 0 ? (stats.correct / stats.total) * 100 : 0}%` }}
           />
           <div
