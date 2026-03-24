@@ -11,7 +11,7 @@ import { diffTexts } from '../../utils/wpmCalculator'
 
 const buildWordDiff = (original, typed) => {
   if (!original) return { refWords: [], typedWords: [], errors: [] }
-  const { result, typedExtras } = diffTexts(original, typed || '')
+  const { result, typedResult } = diffTexts(original, typed || '')
   const errors = []
 
     const refWords = result.map((item, i) => {
@@ -27,16 +27,13 @@ const buildWordDiff = (original, typed) => {
       return { word, type: 'missing' }
     })
 
-    const typedDiffWords = result.map((item) => {
-      if (item.type === 'correct') return { word: item.char, type: 'correct' }
-      if (item.type === 'wrong') return { word: (item.typed || '___'), type: 'wrong' }
-      return { word: '___', type: 'missing' }
+    // build typed side using typedResult (preserves student spacing)
+    const typedDiffWords = (typedResult || []).map((t) => {
+      if (t.type === 'correct') return { word: t.word, type: 'correct' }
+      if (t.type === 'wrong') return { word: t.word, type: 'wrong' }
+      if (t.type === 'extra') return { word: t.word, type: 'extra' }
+      return { word: t.word || '___', type: 'missing' }
     })
-
-  // Append any extra typed words
-  if (typedExtras && typedExtras.length) {
-    typedExtras.forEach((e) => typedDiffWords.push({ word: e.word, type: 'extra' }))
-  }
 
   return { refWords, typedWords: typedDiffWords, errors }
 }

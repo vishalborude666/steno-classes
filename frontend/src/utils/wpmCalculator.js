@@ -42,10 +42,12 @@ export const calculateAccuracy = (original, typed) => {
  * Returns array of { char, type: 'correct' | 'wrong' | 'missing' }
  */
 export const diffTexts = (original, typed) => {
-  // Create arrays of original tokens preserving trailing spaces for rendering
-  const tokens = original.match(/\S+\s*/g) || []
-  const origWords = tokens.map((t) => t.trim().toLowerCase())
-  const typedWords = (typed || '').trim().toLowerCase().split(/\s+/).filter(Boolean)
+  // Tokenize original and typed preserving trailing whitespace so rendering keeps exact spacing
+  const origTokens = original.match(/\S+\s*/g) || []
+  const typedTokens = (typed || '').match(/\S+\s*/g) || []
+
+  const origWords = origTokens.map((t) => t.trim().toLowerCase())
+  const typedWords = typedTokens.map((t) => t.trim().toLowerCase())
 
   const m = origWords.length
   const n = typedWords.length
@@ -79,34 +81,35 @@ export const diffTexts = (original, typed) => {
 
   ops.reverse()
 
-  // Convert ops into result for original tokens, and collect typed extras
-  const result = []
-  const typedExtras = []
+  // Convert ops into aligned results for original and typed sides
+  const result = [] // for original tokens
+  const typedResult = [] // for typed tokens in order
+
   for (let k = 0; k < ops.length; k++) {
     const op = ops[k]
     if (op.type === 'equal') {
-      result.push({ char: tokens[op.i], type: 'correct' })
+      result.push({ char: origTokens[op.i], type: 'correct' })
+      typedResult.push({ word: typedTokens[op.j], type: 'correct' })
     } else if (op.type === 'delete') {
-      // If next op is insert, this is likely a substitution -> mark as wrong and show typed
       const next = ops[k + 1]
       if (next && next.type === 'insert') {
-        result.push({ char: tokens[op.i], type: 'wrong', typed: typedWords[next.j] })
-        // consume next op
-        k++
+        // substitution
+        result.push({ char: origTokens[op.i], type: 'wrong', typed: typedTokens[next.j] })
+        typedResult.push({ word: typedTokens[next.j], type: 'wrong' })
+        k++ // consume insert
       } else {
-        result.push({ char: tokens[op.i], type: 'missing' })
+        result.push({ char: origTokens[op.i], type: 'missing' })
       }
     } else if (op.type === 'insert') {
       // typed extra not associated with an original token
-      typedExtras.push({ word: typedWords[op.j], type: 'extra' })
+      typedResult.push({ word: typedTokens[op.j], type: 'extra' })
     }
   }
 
-  // If there are remaining original tokens (unlikely), mark them missing
-  for (let idx = result.length; idx < tokens.length; idx++) {
-    result.push({ char: tokens[idx], type: 'missing' })
+  // If there are remaining original tokens, mark them missing
+  for (let idx = result.length; idx < origTokens.length; idx++) {
+    result.push({ char: origTokens[idx], type: 'missing' })
   }
 
-  // We return an array of original-token results; typedExtras can be used by callers if needed
-  return { result, typedExtras }
+  return { result, typedResult }
 }
