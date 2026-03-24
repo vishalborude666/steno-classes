@@ -4,7 +4,8 @@
  */
 export const calculateWPM = (typedText, timeTakenSeconds) => {
   if (!timeTakenSeconds || timeTakenSeconds <= 0) return 0
-  const charCount = typedText.trim().replace(/\s+/g, ' ').length
+  // Count only non-whitespace characters (do not count spaces or tabs)
+  const charCount = (typedText || '').replace(/[\s\t]+/g, '').length
   const words = charCount / 5
   const minutes = timeTakenSeconds / 60
   return Math.round(words / minutes)
